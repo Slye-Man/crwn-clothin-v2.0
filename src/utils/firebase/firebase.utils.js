@@ -9,8 +9,7 @@ import {
   getFirestore,
   doc,
   getDoc,
-  setDoc,
-  Firestore
+  setDoc
 } from 'firebase/firestore'
 
 const firebaseConfig = {
@@ -39,7 +38,22 @@ export const db = getFirestore()
 export const createUserDocumentFromAuth = async (userAuth) => {
   const userDocRef = doc(db, 'users', userAuth.uid)
 
-  console.log(userDocRef);
-
   const userSnapshot = await getDoc(userDocRef)
+
+  if (!userSnapshot.exists()) {
+    const {displayName, email} = userAuth
+    const createdAt = new Date()
+
+    try {
+      await setDoc(userDocRef, {
+        displayName,
+        email,
+        createdAt
+      })
+    } catch (err) {
+      console.log('error creating user', err.message);
+    }
+  }
+
+  return userDocRef
 }

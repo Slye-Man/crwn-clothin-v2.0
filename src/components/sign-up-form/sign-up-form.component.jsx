@@ -28,7 +28,7 @@ const SignUpForm = () => {
     const handleSubmit = async (event) => {
         event.preventDefault()
 
-        if(password === confirmPassword) {
+        if(password !== confirmPassword) {
             alert("passwords do not match")
             return
         }
@@ -91,11 +91,11 @@ const SignUpForm = () => {
                 />
 
                 <FormInput
-                    label="Confrim Password"
+                    label="Confirm Password"
                     type='password'
                     required 
                     onChange={handleChange} 
-                    name="confrimPassword" 
+                    name="confirmPassword" 
                     value={confirmPassword}
                 />
 
